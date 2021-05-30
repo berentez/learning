@@ -3,12 +3,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
-.quote-of-the-day {
-  max-width: 600px;
-}
-
-.quote-of-the-day > h3 {
+button {
+  padding: 16px;
+  font-size: 20px;
   margin-top: 20px;
 }

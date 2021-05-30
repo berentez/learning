@@ -1,0 +1,7 @@
+.quote-of-the-day {
+  max-width: 600px;
+}
+
+.quote-of-the-day > h3 {
+  margin-top: 20px;
+}

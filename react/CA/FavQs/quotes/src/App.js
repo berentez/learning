@@ -1,23 +1,56 @@
 import { useEffect, useState } from 'react';
+
 import './app.css';
+import Qotd from './components/qotd/qotd';
 
 function App() {
-  const [qotd, setQotd] = useState({});
+  const [qotd, setQotd] = useState(null);
+  const [quotes, setQuotes] = useState([]);
 
   const baseUrl = 'https://favqs.com/api/';
   const appKey = 'a6198ccc14d52a1b71ec8ec98fbf671a';
-  useEffect(() => {
+
+  const fetchQotd = () => {
     fetch(`${baseUrl}qotd`)
       .then((response) => response.json())
-      .then((data) => setQotd(data.quote));
+      .then((data) => {
+        setQotd(data.quote);
+        setQuotes([]);
+      });
+  };
+
+  const fetchQuotes = () => {
+    fetch(`${baseUrl}quotes`, {
+      headers: {
+        Authorization: `Token token="${appKey}"`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setQotd(null);
+        setQuotes(data.quotes);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const giveMeANewOne = () => {
+    fetchQotd();
+  };
+
+  const giveMeALot = () => {
+    fetchQuotes();
+  };
+
+  useEffect(() => {
+    fetchQotd();
   }, []);
 
   return (
     <div className="app">
-      <div className="quote-of-the-day">
-        <h1>"{qotd.body}"</h1>
-        <h3>{qotd.author}</h3>
-      </div>
+      {qotd && <Qotd quote={qotd.body} author={qotd.author} />}
+      {quotes.length > 0 && quotes.map((quote) => <div key={quote.id}>{quote.body}</div>)}
+      <button onClick={giveMeANewOne}>Give me a new one</button>
+      <button onClick={giveMeALot}>Give me a lot</button>
     </div>
   );
 }
