@@ -1,0 +1,14 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote-of-the-day {
+  max-width: 600px;
+}
+
+.quote-of-the-day > h3 {
+  margin-top: 20px;
+}
