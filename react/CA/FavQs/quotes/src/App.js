@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import './app.css';
 import Qotd from './components/qotd/qotd';
+import QuoteList from './components/quoteList/quoteList';
 
 function App() {
   const [qotd, setQotd] = useState(null);
@@ -48,7 +49,7 @@ function App() {
   return (
     <div className="app">
       {qotd && <Qotd quote={qotd.body} author={qotd.author} />}
-      {quotes.length > 0 && quotes.map((quote) => <div key={quote.id}>{quote.body}</div>)}
+      {quotes.length > 0 && <QuoteList quotes={quotes} />}
       <button onClick={giveMeANewOne}>Give me a new one</button>
       <button onClick={giveMeALot}>Give me a lot</button>
     </div>

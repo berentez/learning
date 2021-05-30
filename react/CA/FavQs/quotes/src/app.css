@@ -11,3 +11,11 @@ button {
   font-size: 20px;
   margin-top: 20px;
 }
+
+.quote-list {
+  padding-top: 100px;
+}
+
+.quote-list > .quote-of-the-day {
+  margin-bottom: 20px;
+}
