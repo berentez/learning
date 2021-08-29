@@ -16,8 +16,6 @@ function rotLeft(a: number[], d: number): number[] {
     }
     res[index] = num;
   });
-
-  // Write your code here
   return res;
 }
 
