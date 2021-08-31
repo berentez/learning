@@ -7,6 +7,8 @@
  *  2. INTEGER d
  */
 
+///timeout problem
+
 function rotLeft(a: number[], d: number): number[] {
   let res: number[] = new Array(a.length);
   a.forEach((num, i) => {
