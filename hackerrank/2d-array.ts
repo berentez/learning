@@ -1,20 +1,20 @@
 function hourglassSum(arr: number[][]): number {
   const hourglassSums: number[] = [];
-  for (let i: number = 0; i < 5; i++) {
-    for (let n: number = 0; n < 5; n++) {
-      let sum: number =
-        arr[i][i + n] +
-        arr[i][i + n + 1] +
-        arr[i][i + n + 2] +
-        arr[i + 1][i + n + 1] +
-        arr[i + 2][i + n] +
-        arr[i + 2][i + n + 1] +
-        arr[i + 2][i + n + 2];
-      hourglassSums.push(sum);
-      console.log(hourglassSums);
+  for (let i: number = 0; i < 4; i++) {
+    for (let n: number = 0; n < 4; n++) {
+      let num: number =
+        arr[i][n] +
+        arr[i][n + 1] +
+        arr[i][n + 2] +
+        arr[i + 1][n + 1] +
+        arr[i + 2][n] +
+        arr[i + 2][n + 1] +
+        arr[i + 2][n + 2];
+      hourglassSums.push(num);
     }
   }
-  return;
+
+  return hourglassSums.sort((a, b) => b - a)[0];
 }
 
 ////////////////////////////

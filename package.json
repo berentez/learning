@@ -19,6 +19,7 @@
   "homepage": "https://github.com/berentez/learning#readme",
   "dependencies": {
     "@types/react-redux": "^7.1.18",
+    "redux": "^4.1.1",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
