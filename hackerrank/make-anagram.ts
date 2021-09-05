@@ -15,7 +15,6 @@ function makeAnagram(a: string, b: string): number {
 
   for (let i: number = 0; i < aArr.length; i++) {
     for (let j: number = index; j < bArr.length; j++) {
-      console.log(aArr[i], bArr[j]);
       if (aArr[i] === bArr[j]) {
         counter++;
         index = j + 1;
