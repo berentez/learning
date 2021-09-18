@@ -1,25 +1,28 @@
 function wheatFromChaff(values) {
-  let negative = [];
-  let positive = [];
-
   for (let i = 0; i < values.length; i++) {
-    if (values[i] < 0 && i < values.length / 2) {
-      negative.push(values[i]);
-    } else if (values[i] < 0 && i > values.length / 2) {
-      negative.unshift(values[i]);
-    } else if (values[i] > 0 && i < values.length / 2) {
-      positive.push(values[i]);
-    } else {
-      positive.unshift(values[i]);
+    let num = 0;
+    if (values[i] > 0) {
+      console.log('i pozitív', values[i]);
+      for (let n = i + 1; n < values.length; n++) {
+        console.log('ciklus');
+        if (values[n] < 0) {
+          num = n;
+          console.log('num', num);
+        }
+      }
+      if (num !== 0) {
+        [values[i], values[num]] = [values[num], values[i]];
+      }
     }
   }
-
-  return negative.concat(positive);
+  return values;
 }
 
-console.log(wheatFromChaff([2, -4, 6, -6]));
-console.log(wheatFromChaff([7, -3, -10]));
-console.log(wheatFromChaff([7, -8, 1, -2]));
-console.log(wheatFromChaff([16, 25, -48, -47, -37, 41, -2]));
-console.log(wheatFromChaff([-7, 10, -6, 8, 9]));
-console.log(wheatFromChaff([-2, -6, -4, 1, -8, 2]));
+// console.log(wheatFromChaff([2, -4, 6, -6])); //-6, -4, 6, 2
+console.log(wheatFromChaff([7, -3, -10])); //-10, -3, 7
+// console.log(wheatFromChaff([7, -8, 1, -2])); // -2, -8, 1, 7
+// console.log(wheatFromChaff([16, 25, -48, -47, -37, 41, -2])); //-2, -37, -48, -47, 25, 41, 16
+// console.log(wheatFromChaff([-7, 10, -6, 8, 9])); //-7, -6, 10, 8, 9
+// console.log(wheatFromChaff([-2, -6, -4, 1, -8, 2]));
+// console.log(wheatFromChaff([-7, 10, -6, 8, 9]));
+// console.log(wheatFromChaff([-7, 10, -6, 8, 9]));
