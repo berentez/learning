@@ -1,14 +1,19 @@
 function htmlspecialchars(formData) {
-  const harmful = { '<': '&lt;', '>': '&gt;', '"': '&quot;', '&': '&amp;' };
-  const inputArr = formData.split('');
+  const arr = formData.split('');
 
-  inputArr.forEach((value, i) => {
-    if (Object.keys(harmful).includes(value)) {
-      inputArr[i] = harmful[value];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === '<') {
+      arr[i] = '&lt;';
+    } else if (arr[i] === '>') {
+      arr[i] = '&gt;';
+    } else if (arr[i] === '"') {
+      arr[i] = '&quot;';
+    } else if (arr[i] === '&') {
+      arr[i] = '&amp;';
     }
-  });
+  }
 
-  return inputArr.join('');
+  return arr.join('');
 }
 
 console.log(htmlspecialchars('abc'));
