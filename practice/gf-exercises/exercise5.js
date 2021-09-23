@@ -4,7 +4,6 @@ function rotateMatrix(input) {
   for (let i = 0; i < input.length; i++) {
     let part = [];
     for (let j = input[i].length - 1; j >= 0; j--) {
-      console.log(input[i][j]);
       part.push(input[j][i]);
     }
     res.push(part);
