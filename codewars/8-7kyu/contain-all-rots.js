@@ -8,7 +8,6 @@ function containAllRots(strng, arr) {
   }
   let set = new Set(rotations);
 
-  console.log(rotations);
   return set.size === strng.length;
 }
 

@@ -13,6 +13,8 @@ function htmlspecialchars(formData) {
     }
   }
 
+  console.log(arr.join(''));
+
   return arr.join('');
 }
 
