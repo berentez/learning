@@ -9,7 +9,7 @@
     {
       "text": "go to sleep",
       "day": "9 pm",
-      "reminder": false,
+      "reminder": true,
       "id": 7
     }
   ]
