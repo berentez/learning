@@ -1,22 +1,21 @@
 function pascalsTriangle(n) {
-  let previous = [];
-  let current = [1];
-  let res = [];
+  let res = [1];
 
-  for (let i = 0; i < n; i++) {
-    res = res.concat(current);
-    console.log('log: ', previous, current);
-    for (let j = 0; j < previous.length; j++) {
-      const value = previous[j] + previous[j + 1];
-      current.push(value);
+  if (n > 1) {
+    let prevLine = [1];
+    for (let i = 1; i < n; i++) {
+      let currentLine = [1];
+      for (let k = 0; k < prevLine.length; k++) {
+        if (prevLine[k + 1] === undefined) {
+          currentLine.push(1);
+        } else {
+          currentLine.push(prevLine[k] + prevLine[k + 1]);
+        }
+      }
+      res = res.concat(currentLine);
+      prevLine = currentLine;
     }
-    current.push(1);
-    previous = [];
-    previous = previous.concat(current);
   }
-
-  current = [1];
-
   return res;
 }
 
