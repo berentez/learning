@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="calvulator">
+      <div className="calculator">
         <div className="display">
           <span>(0)</span>0
         </div>
