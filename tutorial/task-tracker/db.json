@@ -1,12 +1,6 @@
 {
   "tasks": [
     {
-      "text": "pizza app tutorial",
-      "day": "11.22",
-      "reminder": true,
-      "id": 1
-    },
-    {
       "text": "learn java",
       "day": "11.23",
       "reminder": true,
