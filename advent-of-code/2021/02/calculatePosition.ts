@@ -31,3 +31,30 @@ function calculatePosition(): number {
 console.log(calculatePosition());
 
 //PART 2
+
+function calculatePositionWithAim(): number {
+  let directions: KeyInterface = {
+    horizontal: 0,
+    vertical: 0,
+    aim: 0,
+  };
+
+  let text: string = fs.readFileSync('input.txt', 'utf-8');
+  let splittedText: string[] = text.split(/\r?\n/);
+
+  for (let i: number = 0; i < splittedText.length; i++) {
+    let dir: string[] = splittedText[i].split(' ');
+    if (dir[0] === 'down') {
+      directions.aim += parseInt(dir[1]);
+    } else if (dir[0] === 'up') {
+      directions.aim -= parseInt(dir[1]);
+    } else {
+      directions.horizontal += parseInt(dir[1]);
+      directions.vertical += parseInt(dir[1]) * directions.aim;
+    }
+  }
+
+  return directions.horizontal * directions.vertical;
+}
+
+console.log(calculatePositionWithAim());
