@@ -34,16 +34,16 @@ export class BingoSheet {
     console.log('BINGO!!');
   }
 
-  markNum(mark: number): BingoLine[] {
+  markNum(mark: number): (number | BingoLine[])[] {
     for (let i: number = 0; i < this.numbers.length; i++) {
       for (let n: number = 0; n < this.numbers[i].numbers.length; n++) {
         if (mark === this.numbers[i].numbers[n].value) {
           this.numbers[i].numbers[n].markNumber();
           this.checkLine(this.numbers[i]);
-          this.checkRow(n);
+          this.checkColumn(n);
 
           if (this.win) {
-            return this.numbers;
+            return [mark, this.numbers];
           }
         }
       }
@@ -64,12 +64,12 @@ export class BingoSheet {
     }
   }
 
-  checkRow(row: number) {
+  checkColumn(row: number) {
     for (let i: number = 0; i < this.numbers.length; i++) {
       if (this.numbers[i].numbers[row].marked) {
         if (i === 4) {
           this.winGame();
-          console.log('win row');
+          console.log('win column');
         }
       } else {
         break;

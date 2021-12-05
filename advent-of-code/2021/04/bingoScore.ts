@@ -1,8 +1,17 @@
-import { DeflateRaw } from 'zlib';
 import { getInput } from '../../getInput';
 import { BingoLine, BingoNumber, BingoSheet } from './Bingo';
 
-const calculateScore = () => {};
+const calculateScore = (sheet: BingoLine[]): number => {
+  let res: number = 0;
+  for (let i: number = 0; i < sheet.length; i++) {
+    for (let n: number = 0; n < sheet[i].numbers.length; n++) {
+      if (!sheet[i].numbers[n].marked) {
+        res += sheet[i].numbers[n].value;
+      }
+    }
+  }
+  return res;
+};
 
 const getBingoSheets = (array: string[]): BingoSheet[] => {
   let bingoSheets: BingoSheet[] = [];
@@ -10,15 +19,14 @@ const getBingoSheets = (array: string[]): BingoSheet[] => {
   let bingoLines: BingoLine[] = [];
 
   for (let i: number = 0; i < array.length; i++) {
-    if (bingoNums.length < 5) {
-      if (array[i] !== '') {
-        bingoNums.push(new BingoNumber(parseInt(array[i])));
-      }
-    } else {
-      if (bingoLines.length < 5) {
-        bingoLines.push(new BingoLine(bingoNums));
-        bingoNums = [];
-      } else {
+    if (array[i] !== '') {
+      bingoNums.push(new BingoNumber(parseInt(array[i])));
+    }
+    if (bingoNums.length === 5) {
+      bingoLines.push(new BingoLine(bingoNums));
+      bingoNums = [];
+
+      if (bingoLines.length === 5) {
         bingoSheets.push(new BingoSheet(bingoLines));
         bingoLines = [];
       }
@@ -27,10 +35,13 @@ const getBingoSheets = (array: string[]): BingoSheet[] => {
   return bingoSheets;
 };
 
-const markNumber = (draw: number[], sheets: BingoSheet[]): BingoLine[] => {
+const markNumber = (
+  draw: number[],
+  sheets: BingoSheet[]
+): (number | BingoLine[])[] => {
   for (let i: number = 0; i < draw.length; i++) {
     for (let n: number = 0; n < sheets.length; n++) {
-      let bingo: BingoLine[] = sheets[n].markNum(draw[i]);
+      let bingo: (number | BingoLine[])[] = sheets[n].markNum(draw[i]);
       if (bingo.length > 0) {
         return bingo;
       }
@@ -52,13 +63,11 @@ const bingoScore = () => {
   //creating the sheets with classes
   const bingoBoards: any = bingoBoardsRaw.join(' ').split(' ');
   const sheets: BingoSheet[] = getBingoSheets(bingoBoards);
+  const bingo: (number | BingoLine[])[] = markNumber(drawNums, sheets);
+  const justCalled: number | BingoLine[] = bingo[0];
+  const board: number | BingoLine[] = bingo[1];
 
-  const bingo: BingoLine[] = markNumber(drawNums, sheets);
-
-  bingo.forEach(value => {
-    console.log(value);
-  });
-  return 0;
+  return (justCalled as number) * calculateScore(board as BingoLine[]);
 };
 
-bingoScore();
+console.log(bingoScore());
