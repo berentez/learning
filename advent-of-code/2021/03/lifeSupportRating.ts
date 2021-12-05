@@ -1,6 +1,5 @@
 import { getInput } from '../../getInput';
 import { transferBinary } from './transferBinaryToDecimal';
-import { KeyInterface } from '../../KeyInterface';
 
 const oxygenGenerator = (data: string[]): number => {
   for (let i: number = 0; i < data[0].length; i++) {
