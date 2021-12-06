@@ -50,9 +50,29 @@ const markNumber = (
   return [];
 };
 
-const bingoScore = () => {
+const loserBingo = (
+  draw: number[],
+  sheets: BingoSheet[]
+): (number | BingoLine[])[] => {
+  for (let i: number = 0; i < draw.length; i++) {
+    for (let n: number = 0; n < sheets.length; n++) {
+      let bingo: (number | BingoLine[])[] = sheets[n].markNum(draw[i]);
+      if (bingo.length > 0) {
+        if (sheets.length === 1) {
+          return bingo;
+        } else {
+          sheets = sheets.filter(value => value.win === false);
+          console.log(`sheets`, sheets);
+        }
+      }
+    }
+  }
+  return [];
+};
+
+const bingoScore = (aim?: string) => {
   //getting data
-  const data: string[] = getInput('input.txt', /\r?\n/);
+  const data: string[] = getInput('testInput.txt', /\r?\n/);
   const [drawRaw, ...bingoBoardsRaw] = data;
   //splitting up data to draw numbers and bingo sheets
   const draw: string[] = drawRaw.split(',');
@@ -63,11 +83,17 @@ const bingoScore = () => {
   //creating the sheets with classes
   const bingoBoards: any = bingoBoardsRaw.join(' ').split(' ');
   const sheets: BingoSheet[] = getBingoSheets(bingoBoards);
-  const bingo: (number | BingoLine[])[] = markNumber(drawNums, sheets);
+  let bingo: (number | BingoLine[])[] = [];
+  if (aim === 'lose') {
+    bingo = loserBingo(drawNums, sheets);
+  } else {
+    bingo = markNumber(drawNums, sheets);
+  }
   const justCalled: number | BingoLine[] = bingo[0];
   const board: number | BingoLine[] = bingo[1];
+  console.log(justCalled);
 
   return (justCalled as number) * calculateScore(board as BingoLine[]);
 };
 
-console.log(bingoScore());
+console.log(bingoScore('lose'));

@@ -21,11 +21,11 @@ export class BingoLine {
 }
 
 export class BingoSheet {
-  numbers: BingoLine[];
+  lines: BingoLine[];
   win: boolean;
 
   constructor(num: BingoLine[]) {
-    this.numbers = num;
+    this.lines = num;
     this.win = false;
   }
 
@@ -35,28 +35,29 @@ export class BingoSheet {
   }
 
   markNum(mark: number): (number | BingoLine[])[] {
-    for (let i: number = 0; i < this.numbers.length; i++) {
-      for (let n: number = 0; n < this.numbers[i].numbers.length; n++) {
-        if (mark === this.numbers[i].numbers[n].value) {
-          this.numbers[i].numbers[n].markNumber();
-          this.checkLine(this.numbers[i]);
+    for (let i: number = 0; i < this.lines.length; i++) {
+      for (let n: number = 0; n < this.lines[i].numbers.length; n++) {
+        if (mark === this.lines[i].numbers[n].value) {
+          this.lines[i].numbers[n].markNumber();
+          console.log(this.lines[i], this.lines[i].numbers[n]);
+          this.checkLine(this.lines[i]);
           this.checkColumn(n);
-
-          if (this.win) {
-            return [mark, this.numbers];
-          }
         }
       }
+    }
+    if (this.win) {
+      return [mark, this.lines];
     }
     return [];
   }
 
-  checkLine(line: BingoLine) {
-    for (let i: number = 0; i < line.numbers.length; i++) {
-      if (line.numbers[i].marked) {
+  checkLine(lines: BingoLine) {
+    for (let i: number = 0; i < lines.numbers.length; i++) {
+      if (lines.numbers[i].marked) {
         if (i === 4) {
           this.winGame();
-          console.log('win line');
+          console.log('win lines');
+          break;
         }
       } else {
         break;
@@ -64,12 +65,18 @@ export class BingoSheet {
     }
   }
 
-  checkColumn(row: number) {
-    for (let i: number = 0; i < this.numbers.length; i++) {
-      if (this.numbers[i].numbers[row].marked) {
+  checkColumn(column: number) {
+    for (let i: number = 0; i < this.lines.length; i++) {
+      if (this.lines[i].numbers[column].marked) {
         if (i === 4) {
           this.winGame();
           console.log('win column');
+          console.log(this.lines[0].numbers[2]);
+          console.log(this.lines[1].numbers[2]);
+          console.log(this.lines[2].numbers[2]);
+          console.log(this.lines[3].numbers[2]);
+          console.log(this.lines[4].numbers[2]);
+          break;
         }
       } else {
         break;
