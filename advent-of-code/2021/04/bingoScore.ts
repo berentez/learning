@@ -60,8 +60,9 @@ const loserBingo = (
       if (bingo.length > 0) {
         if (sheets.length === 1) {
           return bingo;
-        } else {
+        } else if (sheets.length > 1) {
           sheets = sheets.filter(value => value.win === false);
+          i--;
           console.log(`sheets`, sheets);
         }
       }
@@ -72,7 +73,7 @@ const loserBingo = (
 
 const bingoScore = (aim?: string) => {
   //getting data
-  const data: string[] = getInput('testInput.txt', /\r?\n/);
+  const data: string[] = getInput('input.txt', /\r?\n/);
   const [drawRaw, ...bingoBoardsRaw] = data;
   //splitting up data to draw numbers and bingo sheets
   const draw: string[] = drawRaw.split(',');
@@ -91,7 +92,6 @@ const bingoScore = (aim?: string) => {
   }
   const justCalled: number | BingoLine[] = bingo[0];
   const board: number | BingoLine[] = bingo[1];
-  console.log(justCalled);
 
   return (justCalled as number) * calculateScore(board as BingoLine[]);
 };

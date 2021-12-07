@@ -39,9 +39,9 @@ export class BingoSheet {
       for (let n: number = 0; n < this.lines[i].numbers.length; n++) {
         if (mark === this.lines[i].numbers[n].value) {
           this.lines[i].numbers[n].markNumber();
-          console.log(this.lines[i], this.lines[i].numbers[n]);
-          this.checkLine(this.lines[i]);
+
           this.checkColumn(n);
+          this.checkLine(this.lines[i]);
         }
       }
     }
@@ -56,7 +56,6 @@ export class BingoSheet {
       if (lines.numbers[i].marked) {
         if (i === 4) {
           this.winGame();
-          console.log('win lines');
           break;
         }
       } else {
@@ -70,12 +69,6 @@ export class BingoSheet {
       if (this.lines[i].numbers[column].marked) {
         if (i === 4) {
           this.winGame();
-          console.log('win column');
-          console.log(this.lines[0].numbers[2]);
-          console.log(this.lines[1].numbers[2]);
-          console.log(this.lines[2].numbers[2]);
-          console.log(this.lines[3].numbers[2]);
-          console.log(this.lines[4].numbers[2]);
           break;
         }
       } else {
