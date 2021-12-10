@@ -1,12 +1,5 @@
 import { getInput } from '../../getInput';
 
-const checkDirection = (data: number[][][]) => {
-  data = data.filter(value => {
-    return value[0][0] === value[1][0] || value[0][1] === value[1][1];
-  });
-  return data;
-};
-
 const findBiggest = (data: number[][][]) => {
   let res: number = 0;
   for (let i: number = 0; i < data.length; i++) {
@@ -23,13 +16,33 @@ const findBiggest = (data: number[][][]) => {
 };
 
 const markPath = (data: number[][][], palette: number[][]) => {
-  for (let i: number = 0; i < data.length; i++) {
-    if (data[i][0][0] > data[i][1][0] || data[i][0][1] > data[i][1][1]) {
-      [data[i][0], data[i][1]] = [data[i][1], data[i][0]];
-    }
-    for (let y: number = data[i][0][1]; y <= data[i][1][1]; y++) {
-      for (let x: number = data[i][0][0]; x <= data[i][1][0]; x++) {
+  for (let line of data) {
+    //if data is not diagonal
+    if (line[0][0] === line[1][0] || line[0][1] === line[1][1]) {
+      if (line[0][0] > line[1][0] || line[0][1] > line[1][1]) {
+        [line[0], line[1]] = [line[1], line[0]];
+      }
+
+      for (let y: number = line[0][1]; y <= line[1][1]; y++) {
+        for (let x: number = line[0][0]; x <= line[1][0]; x++) {
+          palette[y][x]++;
+        }
+      }
+    } else {
+      let y: number = line[0][1];
+      let x: number = line[0][0];
+      for (let i: number = 0; i <= Math.abs(line[0][0] - line[1][0]); i++) {
         palette[y][x]++;
+        if (y > line[1][1]) {
+          y--;
+        } else {
+          y++;
+        }
+        if (x > line[1][0]) {
+          x--;
+        } else {
+          x++;
+        }
       }
     }
   }
@@ -48,8 +61,8 @@ const countDanger = (area: number[][]) => {
   return counter;
 };
 
-const findDangerousArea = () => {
-  const data: string[] = getInput('testInput.txt', /\r?\n/);
+const findDangerousAreaWithDiagonal = () => {
+  const data: string[] = getInput('input.txt', /\r?\n/);
   let splittedData: number[][][] = data.map(value => {
     return value.split(' -> ').map(value => {
       return value.split(',').map(value => {
@@ -57,9 +70,6 @@ const findDangerousArea = () => {
       });
     });
   });
-
-  //filtering for horizontal, vertical lines
-  splittedData = checkDirection(splittedData);
 
   //find biggest number for making the areaMatrix
   const highestNum: number = findBiggest(splittedData) + 1;
@@ -71,4 +81,4 @@ const findDangerousArea = () => {
   return countDanger(area);
 };
 
-console.log(findDangerousArea());
+console.log(findDangerousAreaWithDiagonal());
