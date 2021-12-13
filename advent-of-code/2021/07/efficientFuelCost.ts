@@ -21,7 +21,7 @@ const efficientFuelCost = () => {
       }
     }
   }
-  return position;
+  return fuel;
 };
 
 console.log(efficientFuelCost());
