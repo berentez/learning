@@ -1,4 +1,4 @@
-export class Digits {
+export interface Digits {
   0: string;
   1: string;
   2: string;
@@ -9,6 +9,4 @@ export class Digits {
   7: string;
   8: string;
   9: string;
-
-  constructor() {}
 }
