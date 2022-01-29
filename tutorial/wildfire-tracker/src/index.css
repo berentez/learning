@@ -28,9 +28,21 @@ body {
   position: relative;
 }
 
-.location-icon {
+.fire {
   font-size: 2rem;
   color: red;
+  cursor: pointer;
+}
+
+.volcano {
+  font-size: 2rem;
+  color: goldenrod;
+  cursor: pointer;
+}
+
+.storm {
+  font-size: 2rem;
+  color: white;
   cursor: pointer;
 }
 

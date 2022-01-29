@@ -3,6 +3,10 @@ import GoogleMapReact from 'google-map-react';
 import LocationMarker from './LocationMarker';
 import LocationInfoBox from './LocationInfoBox';
 
+import fireAlertIcon from '@iconify/icons-mdi/fire-alert';
+import volcanoIcon from '@iconify/icons-maki/volcano';
+import stormShowers from '@iconify/icons-wi/storm-showers';
+
 const Map = ({ eventData, center, zoom }) => {
   const [locationInfo, setLocationInfo] = useState(null);
 
@@ -10,12 +14,38 @@ const Map = ({ eventData, center, zoom }) => {
     if (ev.categories[0].id === 8) {
       return (
         <LocationMarker
+          icon={fireAlertIcon}
           lat={ev.geometries[0].coordinates[1]}
           lng={ev.geometries[0].coordinates[0]}
           onClick={() => setLocationInfo({ id: ev.id, title: ev.title })}
+          type="fire"
         />
       );
+    } else if (ev.categories[0].id === 12) {
+      return (
+        <LocationMarker
+          icon={volcanoIcon}
+          lat={ev.geometries[0].coordinates[1]}
+          lng={ev.geometries[0].coordinates[0]}
+          onClick={() => setLocationInfo({ id: ev.id, title: ev.title })}
+          type="volcano"
+        />
+      );
+    } else if (ev.categories[0].id === 10) {
+      ev.geometries.map(geo => {
+        console.log(geo);
+        return (
+          <LocationMarker
+            icon={fireAlertIcon}
+            lat={geo.coordinates[1]}
+            lng={geo.coordinates[0]}
+            onClick={() => setLocationInfo({ id: ev.id, title: ev.title })}
+            type="storm"
+          />
+        );
+      });
     }
+
     return null;
   });
 
