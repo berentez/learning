@@ -6,14 +6,16 @@ import LocationInfoBox from './LocationInfoBox';
 import fireAlertIcon from '@iconify/icons-mdi/fire-alert';
 import volcanoIcon from '@iconify/icons-maki/volcano';
 import stormShowers from '@iconify/icons-wi/storm-showers';
+import accumulationIce from '@iconify/icons-carbon/accumulation-ice';
 
-const Map = ({ eventData, center, zoom }) => {
+const Map = ({ eventData, center, zoom, categories }) => {
   const [locationInfo, setLocationInfo] = useState(null);
 
   const markers = eventData.map(ev => {
-    if (ev.categories[0].id === 8) {
+    if (ev.categories[0].id === 8 && categories[0] === true) {
       return (
         <LocationMarker
+          key={Math.random()}
           icon={fireAlertIcon}
           lat={ev.geometries[0].coordinates[1]}
           lng={ev.geometries[0].coordinates[0]}
@@ -21,9 +23,10 @@ const Map = ({ eventData, center, zoom }) => {
           type="fire"
         />
       );
-    } else if (ev.categories[0].id === 12) {
+    } else if (ev.categories[0].id === 12 && categories[1]) {
       return (
         <LocationMarker
+          key={Math.random()}
           icon={volcanoIcon}
           lat={ev.geometries[0].coordinates[1]}
           lng={ev.geometries[0].coordinates[0]}
@@ -31,12 +34,12 @@ const Map = ({ eventData, center, zoom }) => {
           type="volcano"
         />
       );
-    } else if (ev.categories[0].id === 10) {
-      ev.geometries.map(geo => {
-        console.log(geo);
+    } else if (ev.categories[0].id === 10 && categories[2]) {
+      return ev.geometries.map(geo => {
         return (
           <LocationMarker
-            icon={fireAlertIcon}
+            key={Math.random()}
+            icon={stormShowers}
             lat={geo.coordinates[1]}
             lng={geo.coordinates[0]}
             onClick={() => setLocationInfo({ id: ev.id, title: ev.title })}
@@ -44,6 +47,17 @@ const Map = ({ eventData, center, zoom }) => {
           />
         );
       });
+    } else if (ev.categories[0].id === 15 && categories[3]) {
+      return (
+        <LocationMarker
+          key={Math.random()}
+          icon={accumulationIce}
+          lat={ev.geometries[0].coordinates[1]}
+          lng={ev.geometries[0].coordinates[0]}
+          onClick={() => setLocationInfo({ id: ev.id, title: ev.title })}
+          type="ice"
+        />
+      );
     }
 
     return null;

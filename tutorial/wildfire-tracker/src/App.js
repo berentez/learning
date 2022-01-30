@@ -6,6 +6,12 @@ import Header from './components/Header';
 function App() {
   const [eventData, setEventData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activeCategory, setActiveCategory] = useState([
+    true,
+    true,
+    true,
+    true,
+  ]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -20,14 +26,19 @@ function App() {
     };
 
     fetchEvents();
-
-    console.log(eventData);
   }, []);
 
   return (
     <div>
-      <Header />
-      {!loading ? <Map eventData={eventData} /> : <Loader />}{' '}
+      <Header
+        setActiveCategory={setActiveCategory}
+        activeCategory={activeCategory}
+      />
+      {!loading ? (
+        <Map eventData={eventData} categories={activeCategory} />
+      ) : (
+        <Loader />
+      )}{' '}
     </div>
   );
 }

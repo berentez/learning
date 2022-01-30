@@ -5,6 +5,8 @@ body {
 }
 
 .header {
+  display: flex;
+  justify-content: space-between;
   padding: 10px;
   background-color: firebrick;
   color: #fff;
@@ -20,6 +22,26 @@ body {
   padding: 0;
   margin: 0;
   text-align: center;
+}
+
+.header h1.icons {
+  font-size: 25px;
+  min-width: 200px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+.header svg {
+  padding: 3%;
+}
+
+.header svg:hover {
+  background-color: darkred;
+  border-radius: 50%;
 }
 
 .map {
@@ -41,6 +63,12 @@ body {
 }
 
 .storm {
+  font-size: 2rem;
+  color: blue;
+  cursor: pointer;
+}
+
+.ice {
   font-size: 2rem;
   color: white;
   cursor: pointer;
