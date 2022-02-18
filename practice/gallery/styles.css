@@ -1,0 +1,38 @@
+.gallery {
+  display: flex;
+  height: 100vh;
+  width: 900px;
+  justify-content: space-around;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  height: 800px;
+  justify-content: space-between;
+}
+.small {
+  height: 180px;
+  width: 180px;
+}
+
+.big {
+  height: 800px;
+  width: 600px;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: steelblue;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
