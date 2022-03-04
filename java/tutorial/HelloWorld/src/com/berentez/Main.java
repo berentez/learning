@@ -1,11 +1,13 @@
 package com.berentez;
 
+import java.text.NumberFormat;
+
 public class Main {
 
     public static void main(String[] args) {
-        // Implicit casting
-        short x = 1;
-        int y = x + 2;
-        System.out.println(y);
+        String result = NumberFormat.getPercentInstance().format( 0.1);
+        System.out.println(result);
+
     }
 }
+
