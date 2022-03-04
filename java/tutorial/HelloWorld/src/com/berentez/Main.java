@@ -1,13 +1,11 @@
 package com.berentez;
 
-import java.util.Arrays;
-
 public class Main {
 
     public static void main(String[] args) {
-        int[][] numbers = { {0,2,3}, {4,5,6}};
-
-        System.out.println(Arrays.deepToString(numbers));
-
+        // Implicit casting
+        short x = 1;
+        int y = x + 2;
+        System.out.println(y);
     }
 }
