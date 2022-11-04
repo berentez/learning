@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Spider Web Effect</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+      navigator.mediaDevices.getUserMedia({ video: true }).then(function (rowData) {
+        const video = document.createElement('video');
+        video.srcObject = rowData;
+        video.play();
+      });
+    </script>
+  </body>
+</html>
