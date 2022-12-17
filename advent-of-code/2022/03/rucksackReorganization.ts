@@ -2,6 +2,8 @@ import { getInput } from '../../getInput';
 
 const data: string[] = getInput('input.txt', /\r?\n/);
 
+// Part 1
+
 function getSharedItem() {
   let resArray: string[] = [];
   data.forEach((rucksack) => {
@@ -16,9 +18,13 @@ function getSharedItem() {
     }
     // }
   });
+  return characterValueCounter(resArray);
+}
+
+function characterValueCounter(characterArray: string[]) {
   let res: number = 0;
 
-  resArray.forEach((item) => {
+  characterArray.forEach((item) => {
     let value = item.charCodeAt(0);
     if (value > 96 && value < 124) {
       res += value - 96;
@@ -30,4 +36,25 @@ function getSharedItem() {
   return res;
 }
 
-console.log(getSharedItem());
+// Part 2
+
+function getSharedBadge() {
+  let resArray: string[] = [];
+  for (let i: number = 0; i < data.length; i += 3) {
+    const comparingArray: string[] = data[i].split('');
+    for (let n: number = 0; n < comparingArray.length; n++) {
+      const indexOfBadgeInSecond = data[i + 1].split('').indexOf(comparingArray[n]);
+      if (indexOfBadgeInSecond > -1) {
+        if (data[i + 2].split('').includes(comparingArray[n])) {
+          resArray.push(comparingArray[n]);
+          break;
+        }
+      }
+    }
+  }
+  return characterValueCounter(resArray);
+}
+
+console.log(getSharedBadge());
+
+// 3572 is too high
