@@ -42,7 +42,6 @@ const getSumOfEngineValues = () => {
               if (!numbers.includes(char)) {
                 sum += parseInt(numQuery);
                 legitNums.push(parseInt(numQuery));
-                console.log(numQuery, 'UP');
                 numQuery = '';
               }
             }
@@ -60,7 +59,6 @@ const getSumOfEngineValues = () => {
             if (!numbers.includes(char)) {
               sum += parseInt(numQuery);
               legitNums.push(parseInt(numQuery));
-              console.log(numQuery, 'LEFT');
               numQuery = '';
             }
           }
@@ -76,7 +74,6 @@ const getSumOfEngineValues = () => {
             if (!numbers.includes(char)) {
               sum += parseInt(numQuery);
               legitNums.push(parseInt(numQuery));
-              console.log(numQuery, 'RIGHT');
               numQuery = '';
             }
           }
@@ -98,7 +95,6 @@ const getSumOfEngineValues = () => {
                 sum += parseInt(numQuery);
                 legitNums.push(parseInt(numQuery));
 
-                console.log(numQuery, 'DOWN');
                 numQuery = '';
               }
             }
@@ -118,8 +114,108 @@ const getSumOfEngineValues = () => {
   console.log(sum);
 };
 
-console.log(getSumOfEngineValues());
+// console.log(getSumOfEngineValues());
 
-// 532316 too high
-// 531697 nope
-// 528231 nope
+// Part2
+
+const findWrongGearsSum = () => {
+  let sum: number = 0;
+
+  const STAR = '*';
+  const NUMS = createNumberArray();
+
+  for (let line = 0; line < engineSchematic.length; line++) {
+    for (let char = 0; char <= engineSchematic[line].length; char++) {
+      if (engineSchematic[line][char] === STAR) {
+        let adjacentNums: number[] = [];
+        // CHECK TOP
+        if (line !== 0) {
+          // assuming there is no value above 1000
+          let numQuery = '';
+          for (let i: number = 0; i <= engineSchematic[line].length; i++) {
+            if (NUMS.includes(engineSchematic[line - 1][i])) {
+              numQuery += engineSchematic[line - 1][i];
+            } else {
+              if (numQuery) {
+                if (i - 1 >= char - 1 && i - 1 - numQuery.length < char + 1) {
+                  adjacentNums.push(parseInt(numQuery));
+                  numQuery = '';
+                } else {
+                  numQuery = '';
+                }
+              }
+            }
+          }
+        }
+
+        // CHECK BOTTOM
+        if (line !== engineSchematic.length - 1) {
+          let numQuery = '';
+          for (let i: number = 0; i <= engineSchematic[line].length; i++) {
+            if (NUMS.includes(engineSchematic[line + 1][i])) {
+              numQuery += engineSchematic[line + 1][i];
+            } else {
+              if (numQuery) {
+                if (i - 1 >= char - 1 && i - 1 - numQuery.length < char + 1) {
+                  adjacentNums.push(parseInt(numQuery));
+                  numQuery = '';
+                } else {
+                  numQuery = '';
+                }
+              }
+            }
+          }
+        }
+
+        // // CHECK RIGHT
+        if (char !== engineSchematic[line].length - 1) {
+          let numQuery = '';
+          for (let i: number = char + 1; i < char + 5; i++) {
+            if (NUMS.includes(engineSchematic[line][i])) {
+              numQuery += engineSchematic[line][i];
+            } else {
+              if (numQuery) {
+                adjacentNums.push(parseInt(numQuery));
+                numQuery = '';
+                break;
+              } else {
+                numQuery = '';
+                break;
+              }
+            }
+          }
+        }
+
+        // // CHECK LEFT
+        if (char !== 0) {
+          let numQuery = '';
+          for (let i: number = char - 1; i > char - 5; i--) {
+            if (NUMS.includes(engineSchematic[line][i])) {
+              numQuery = engineSchematic[line][i] + numQuery;
+            } else {
+              if (numQuery) {
+                adjacentNums.push(parseInt(numQuery));
+                numQuery = '';
+                break;
+              } else {
+                numQuery = '';
+                break;
+              }
+            }
+          }
+        }
+
+        if (adjacentNums.length === 2) {
+          console.log(adjacentNums);
+          sum += adjacentNums[0] * adjacentNums[1];
+        }
+      }
+    }
+  }
+  console.log(sum);
+};
+
+console.log(findWrongGearsSum());
+
+//76462107 low
+//76539269 low
