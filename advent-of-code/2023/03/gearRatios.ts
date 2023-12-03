@@ -2,33 +2,32 @@ import { getInput } from '../../getInput';
 
 const engineSchematic: string[] = getInput('./engineSchematic.txt', /\r?\n/);
 
-function createNumberAsciiArray() {
-  let numberAscii: number[] = [];
+function createNumberArray() {
+  let numbers: string[] = [];
   for (let i: number = 0; i < 10; i++) {
-    numberAscii.push(toCharCode(i));
+    numbers.push(i.toString());
   }
-  return numberAscii;
-}
-
-function toCharCode(value: number | string) {
-  return value.toString().charCodeAt(0);
+  return numbers;
 }
 
 const getSumOfEngineValues = () => {
   let sum: number = 0;
   let legitNums: number[] = [];
-  const numbers = createNumberAsciiArray();
+  const numbers = createNumberArray();
   // iterate lines
   for (let line = 0; line < engineSchematic.length; line++) {
     let numQuery: string = '';
     // iterate characters in lines
-    for (let char = 0; char < engineSchematic[line].length; char++) {
-      if (numbers.includes(toCharCode(engineSchematic[line][char]))) {
+    for (let char = 0; char <= engineSchematic[line].length; char++) {
+      if (numbers.includes(engineSchematic[line][char])) {
         numQuery = numQuery + engineSchematic[line][char];
       } else {
         if (numQuery === '') {
           continue;
         }
+
+        console.log(numQuery);
+
         let firstIndex = char - numQuery.length;
         let lastIndex = char - 1;
         let numberLength = lastIndex - firstIndex + 1;
@@ -40,7 +39,8 @@ const getSumOfEngineValues = () => {
             }
             const char = engineSchematic[line - 1][i];
             if (char !== '.' && char !== undefined) {
-              if (!numbers.includes(toCharCode(char))) {
+              if (!numbers.includes(char)) {
+                sum += parseInt(numQuery);
                 legitNums.push(parseInt(numQuery));
                 console.log(numQuery, 'UP');
                 numQuery = '';
@@ -57,7 +57,8 @@ const getSumOfEngineValues = () => {
         if (firstIndex !== 0) {
           const char = engineSchematic[line][firstIndex - 1];
           if (char !== '.' && char !== undefined) {
-            if (!numbers.includes(toCharCode(char))) {
+            if (!numbers.includes(char)) {
+              sum += parseInt(numQuery);
               legitNums.push(parseInt(numQuery));
               console.log(numQuery, 'LEFT');
               numQuery = '';
@@ -72,7 +73,8 @@ const getSumOfEngineValues = () => {
         if (lastIndex !== engineSchematic[line].length - 1) {
           const char = engineSchematic[line][lastIndex + 1];
           if (char !== '.' && char !== undefined) {
-            if (!numbers.includes(toCharCode(char))) {
+            if (!numbers.includes(char)) {
+              sum += parseInt(numQuery);
               legitNums.push(parseInt(numQuery));
               console.log(numQuery, 'RIGHT');
               numQuery = '';
@@ -92,7 +94,8 @@ const getSumOfEngineValues = () => {
             }
             const char = engineSchematic[line + 1][i];
             if (char !== '.' && char !== undefined) {
-              if (!numbers.includes(toCharCode(char))) {
+              if (!numbers.includes(char)) {
+                sum += parseInt(numQuery);
                 legitNums.push(parseInt(numQuery));
 
                 console.log(numQuery, 'DOWN');
@@ -111,9 +114,8 @@ const getSumOfEngineValues = () => {
     }
   }
 
-  const res = legitNums.reduce((a, b) => a + b);
   console.log(legitNums);
-  console.log(res);
+  console.log(sum);
 };
 
 console.log(getSumOfEngineValues());
