@@ -42,9 +42,7 @@ const getSumOfEngineValues = () => {
             if (char !== '.' && char !== undefined) {
               if (!numbers.includes(toCharCode(char))) {
                 legitNums.push(parseInt(numQuery));
-                if (numQuery === '771') {
-                  console.log(numQuery, 'UP');
-                }
+                console.log(numQuery, 'UP');
                 numQuery = '';
               }
             }
@@ -61,9 +59,7 @@ const getSumOfEngineValues = () => {
           if (char !== '.' && char !== undefined) {
             if (!numbers.includes(toCharCode(char))) {
               legitNums.push(parseInt(numQuery));
-              if (numQuery === '771') {
-                console.log(numQuery, 'RIGHT');
-              }
+              console.log(numQuery, 'LEFT');
               numQuery = '';
             }
           }
@@ -78,9 +74,7 @@ const getSumOfEngineValues = () => {
           if (char !== '.' && char !== undefined) {
             if (!numbers.includes(toCharCode(char))) {
               legitNums.push(parseInt(numQuery));
-              if (numQuery === '771') {
-                console.log(numQuery, 'RIGHT');
-              }
+              console.log(numQuery, 'RIGHT');
               numQuery = '';
             }
           }
@@ -100,9 +94,8 @@ const getSumOfEngineValues = () => {
             if (char !== '.' && char !== undefined) {
               if (!numbers.includes(toCharCode(char))) {
                 legitNums.push(parseInt(numQuery));
-                if (numQuery === '771') {
-                  console.log(numQuery, 'DOWN');
-                }
+
+                console.log(numQuery, 'DOWN');
                 numQuery = '';
               }
             }
