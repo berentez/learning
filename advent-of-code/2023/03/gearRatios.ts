@@ -31,22 +31,10 @@ const getSumOfEngineValues = () => {
         }
         let firstIndex = char - numQuery.length;
         let lastIndex = char - 1;
-        if (firstIndex !== 0) {
-          // lets assume that - sign is part of the number
-          if (numQuery === '949') {
-            console.log();
-          }
-          if (engineSchematic[line][char - numQuery.length - 1] === '-') {
-            numQuery = '-' + numQuery;
-            console.log(numQuery);
-            firstIndex -= 1;
-          }
-        }
         let numberLength = lastIndex - firstIndex + 1;
-
         // check up
         if (line !== 0) {
-          for (let i: number = firstIndex - 1; i < firstIndex + numberLength + 2; i++) {
+          for (let i: number = firstIndex - 1; i < firstIndex + numberLength + 1; i++) {
             if (numQuery === '') {
               break;
             }
@@ -54,6 +42,9 @@ const getSumOfEngineValues = () => {
             if (char !== '.' && char !== undefined) {
               if (!numbers.includes(toCharCode(char))) {
                 legitNums.push(parseInt(numQuery));
+                if (numQuery === '771') {
+                  console.log(numQuery, 'UP');
+                }
                 numQuery = '';
               }
             }
@@ -70,6 +61,9 @@ const getSumOfEngineValues = () => {
           if (char !== '.' && char !== undefined) {
             if (!numbers.includes(toCharCode(char))) {
               legitNums.push(parseInt(numQuery));
+              if (numQuery === '771') {
+                console.log(numQuery, 'RIGHT');
+              }
               numQuery = '';
             }
           }
@@ -84,6 +78,9 @@ const getSumOfEngineValues = () => {
           if (char !== '.' && char !== undefined) {
             if (!numbers.includes(toCharCode(char))) {
               legitNums.push(parseInt(numQuery));
+              if (numQuery === '771') {
+                console.log(numQuery, 'RIGHT');
+              }
               numQuery = '';
             }
           }
@@ -95,7 +92,7 @@ const getSumOfEngineValues = () => {
 
         // checking down
         if (line !== engineSchematic.length - 1) {
-          for (let i: number = firstIndex - 1; i < firstIndex + numberLength + 2; i++) {
+          for (let i: number = firstIndex - 1; i < firstIndex + numberLength + 1; i++) {
             if (numQuery === '') {
               break;
             }
@@ -103,6 +100,9 @@ const getSumOfEngineValues = () => {
             if (char !== '.' && char !== undefined) {
               if (!numbers.includes(toCharCode(char))) {
                 legitNums.push(parseInt(numQuery));
+                if (numQuery === '771') {
+                  console.log(numQuery, 'DOWN');
+                }
                 numQuery = '';
               }
             }
@@ -119,9 +119,12 @@ const getSumOfEngineValues = () => {
   }
 
   const res = legitNums.reduce((a, b) => a + b);
+  console.log(legitNums);
   console.log(res);
 };
 
 console.log(getSumOfEngineValues());
 
 // 532316 too high
+// 531697 nope
+// 528231 nope
