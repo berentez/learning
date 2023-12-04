@@ -1,3 +1,4 @@
+import { KeyInterface } from '../../KeyInterface';
 import { getInput } from '../../getInput';
 
 const input: string[] = getInput('./cards.txt', /\r?\n/);
@@ -14,6 +15,35 @@ const sumWinningPoints = () => {
   });
   console.log(sum);
 };
+
+const sumScratchCards = () => {
+  let sum = 0;
+  let cardCounter: KeyInterface = createCardInterface(cards);
+  cards.forEach((card, index) => {
+    const winningnums: string[] = transformInputToArray(card, 0);
+    const ownedNums: string[] = transformInputToArray(card, 1);
+    const matchedNums: string[] = ownedNums.filter((num) => winningnums.includes(num));
+    const winnedCards = matchedNums.length;
+    calculateCardGain(cardCounter, index, winnedCards);
+  });
+  sum = getCardNumber(Object.values(cardCounter));
+  console.log(sum);
+};
+
+function getCardNumber(cards: number[]) {
+  const sum = cards.reduce((a, b) => a + b);
+  return sum;
+}
+
+function calculateCardGain(cardCounter: KeyInterface, index: number, winnedCards: number) {
+  for (let n: number = 0; n < cardCounter[index]; n++) {
+    for (let i: number = index + 1; i < winnedCards + 1 + index; i++) {
+      if (cardCounter[i]) {
+        cardCounter[i] += 1;
+      }
+    }
+  }
+}
 
 function transformInputToArray(card: string, index: number) {
   const newCard = card
@@ -39,4 +69,11 @@ function calculatePoints(matches: number) {
   }
 }
 
-console.log(sumWinningPoints());
+function createCardInterface(cards: string[]) {
+  let cardCounter: KeyInterface = {};
+  cards.forEach((c, i) => (cardCounter[i] = 1));
+  return cardCounter;
+}
+
+// console.log(sumWinningPoints());
+console.log(sumScratchCards());
