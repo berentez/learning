@@ -40,11 +40,12 @@ type SeedMapping = {
   location: number;
 };
 
-const almanac = getInput('./test.txt', /\r?\n/).filter((lines: string) => lines.length);
-let source = almanac[0]
+const almanac = getInput('./almanac.txt', /\r?\n/).filter((lines: string) => lines.length);
+let sources = almanac[0]
   .split(':')[1]
   .split(' ')
-  .filter((s: string) => s);
+  .filter((s: string) => s)
+  .map((x: string) => parseInt(x));
 
 const maps = almanac.filter((line: string) => line);
 
@@ -54,37 +55,48 @@ function createSeddMappingObj(seed: string): SeedMapping {
 }
 
 const getLowestLocation = () => {
-  let rangeObj = {} as KeyInterface;
-  for (let i: number = 2; i < maps.length; i++) {
-    if (parseInt(maps[i]) >= 0) {
-      calculateRange(maps[i].split(' '), rangeObj);
-    } else {
-      getNewSource(rangeObj);
-      rangeObj = {};
+  // iterate through the source array, checking every line if its even relevan or not
+  const phaseMatrix: any[][] = createMatrixFromInput();
+  for (let i: number = 0; i < phaseMatrix.length; i++) {
+    for (let srcIndex = 0; srcIndex < sources.length; srcIndex++) {
+      let newSrc: number = 0;
+      for (let n: number = 0; n < phaseMatrix[i].length; n++) {
+        const numArr: number[] = phaseMatrix[i][n].split(' ').map((d: string) => parseInt(d));
+        if (newSrc === 0) {
+          if (sources[srcIndex] > numArr[1] && sources[srcIndex] < numArr[1] + numArr[2]) {
+            const difference = numArr[0] - numArr[1];
+            newSrc = sources[srcIndex] + difference;
+          } else if (sources[srcIndex] === numArr[1] && numArr[2] > 0) {
+            newSrc = numArr[0];
+          }
+        }
+      }
+
+      if (newSrc !== 0) {
+        sources[srcIndex] = newSrc;
+      }
     }
   }
-  getNewSource(rangeObj);
-  findSmallest(source);
+
+  findSmallest(sources);
 };
 
-function calculateRange(array: string[], rangeObj: KeyInterface) {
-  const numMaps = array.map((str: string) => parseInt(str));
-  for (let i: number = 0; i < numMaps[2]; i++) {
-    rangeObj[numMaps[1] + i] = numMaps[0] + i;
-  }
-}
-
-function getNewSource(rangeObj: KeyInterface) {
-  let newSource: string[] = [];
-  source.forEach((src: string) => {
-    const s: string = src.toString();
-    if (rangeObj[s]) {
-      newSource.push(rangeObj[s].toString());
+function createMatrixFromInput() {
+  maps.shift();
+  let phaseMatrix: any[][] = [];
+  let phaseArrays: string[] = [];
+  for (let i: number = 0; i < maps.length; i++) {
+    if (parseInt(maps[i][0]) >= 0) {
+      phaseArrays.push(maps[i]);
     } else {
-      newSource.push(s);
+      if (phaseArrays.length) {
+        phaseMatrix.push(phaseArrays);
+      }
+      phaseArrays = [];
     }
-  });
-  source = [...newSource];
+  }
+  phaseMatrix.push(phaseArrays);
+  return phaseMatrix;
 }
 
 function findSmallest(locations: string[]) {
