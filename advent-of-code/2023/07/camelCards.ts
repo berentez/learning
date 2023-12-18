@@ -2,6 +2,7 @@ import { getInput } from '../../getInput';
 import { KeyInterface } from '../../KeyInterface';
 
 const CARD_TYPES: KeyInterface = {
+  J: 1, // part 2: 11 => 1
   '2': 2,
   '3': 3,
   '4': 4,
@@ -11,7 +12,6 @@ const CARD_TYPES: KeyInterface = {
   '8': 8,
   '9': 9,
   T: 10,
-  J: 11,
   Q: 12,
   K: 13,
   A: 14,
@@ -49,6 +49,8 @@ function sortByHandTypes(hands: string[][]) {
   hands.forEach((h) => {
     const hand = h[0].split('');
     let sortTypes: KeyInterface = countCardTypes(hand);
+
+    sortTypes = addJokerLogic(sortTypes);
     findHandType(h, sortTypes);
   });
   const keys = Object.keys(hand_types);
@@ -58,6 +60,7 @@ function sortByHandTypes(hands: string[][]) {
     const key: keyof HANDTYPES = keys[i] as keyof HANDTYPES;
     hand_types[key] = sortedArr;
   }
+
   const concattedArray: any[] = hand_types.highCard
     .concat(hand_types.onePair)
     .concat(hand_types.twoPair)
@@ -132,6 +135,45 @@ function quickSort(arr: any[][]): any {
   }
 
   return [...quickSort(leftArr), pivot, ...quickSort(rightArr)];
+}
+
+function addJokerLogic(hand: KeyInterface) {
+  let newHand = { ...hand };
+  if (newHand.J) {
+    const cards: string[] = Object.keys(newHand);
+    for (let i: number = 0; i < cards.length; i++) {
+      const value: number = newHand[cards[i]];
+      if (cards[i] === 'J') {
+        continue;
+      } else if (newHand.J) {
+        if (value === 4 || value === 3 || value === 2) {
+          newHand[cards[i]] = value + newHand.J;
+          delete newHand.J;
+        } else if (value === 1) {
+          if (newHand.J > 2) {
+            newHand[cards[i]] = value + newHand.J;
+            delete newHand.J;
+          } else {
+            const cartTypesLength = Object.keys(newHand).length;
+            if (cartTypesLength === 5) {
+              newHand[cards[i]] = value + newHand.J;
+              delete newHand.J;
+            } else {
+              if (newHand.J === 2 && cartTypesLength === 4) {
+                newHand[cards[i]] = value + newHand.J;
+                delete newHand.J;
+              } else {
+                continue;
+              }
+            }
+          }
+        }
+      } else {
+        newHand[cards[i]] = newHand[cards[i]];
+      }
+    }
+  }
+  return newHand;
 }
 
 console.log(getTotalWinnings(hands));
